@@ -1,0 +1,7 @@
+res://gui/pause_menu.tscn
+res://gui/theme.tres
+res://game.gd
+res://level/tileset.tres
+res://level/props/wind_sway.tres
+res://game_singleplayer.tscn
+res://enemy/enemy.tscn
