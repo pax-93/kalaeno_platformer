@@ -12,6 +12,7 @@ script = ExtResource("1_aeuqa")
 [node name="Level" parent="." instance=ExtResource("2_dh0xs")]
 
 [node name="Player" parent="Level" instance=ExtResource("3_jwxhp")]
+z_index = 5
 position = Vector2(90, 546)
 scale = Vector2(0.64, 0.64)
 
