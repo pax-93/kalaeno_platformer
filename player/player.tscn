@@ -1,6 +1,6 @@
 [gd_scene load_steps=117 format=3 uid="uid://cv7t3jhxwj281"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_84n86"]
+[ext_resource type="Script" uid="uid://bh2unequybtah" path="res://player/player.gd" id="1_84n86"]
 [ext_resource type="Texture2D" uid="uid://rvmb7pkcw277" path="res://player/kalaeno_idle.png" id="2_mqq08"]
 [ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5_ccxsm"]
 [ext_resource type="Texture2D" uid="uid://cd5urw5ew8b14" path="res://player/kalaeno_walk.png" id="6_0n7g8"]

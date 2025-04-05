@@ -1,7 +1,14 @@
+res://enemy/enemy.tscn
+res://gui/coins_counter.tscn
+res://gui/pause_menu.tscn
+res://level/background/parallax_background.tscn
+res://level/platforms/platform.tscn
+res://level/coin.tscn
+res://level/level.tscn
+res://player/player.tscn
 res://game.tscn
-res://gui/theme.tres
+res://music.tscn
 res://game.gd
+res://gui/theme.tres
 res://level/tileset.tres
 res://level/props/wind_sway.tres
-res://gui/pause_menu.tscn
-res://enemy/enemy.tscn

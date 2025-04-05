@@ -19,7 +19,7 @@ where the player can jump, walk on slopes, fire bullets,
 interact with enemies, and more. It contains one closed
 level, and the player is invincible, unlike the enemies."
 run/main_scene="res://game.tscn"
-config/features=PackedStringArray("4.3")
+config/features=PackedStringArray("4.4")
 
 [autoload]
 
