@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Platformer 2D"
+config/name="Kalaeno"
 config/description="This demo is a pixel art 2D platformer with graphics and sound.
 
 It shows you how to code characters and physics-based objects
