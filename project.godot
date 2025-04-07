@@ -24,6 +24,9 @@ config/features=PackedStringArray("4.4")
 [autoload]
 
 Music="*res://music.tscn"
+SignalBus="*res://global/signal_bus.gd"
+PlayerState="*res://global/player_state.gd"
+GameState="*res://global/game_state.gd"
 
 [display]
 

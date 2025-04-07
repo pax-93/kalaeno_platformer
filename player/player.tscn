@@ -1,7 +1,8 @@
-[gd_scene load_steps=117 format=3 uid="uid://cv7t3jhxwj281"]
+[gd_scene load_steps=118 format=3 uid="uid://cv7t3jhxwj281"]
 
 [ext_resource type="Script" uid="uid://bh2unequybtah" path="res://player/player.gd" id="1_84n86"]
 [ext_resource type="Texture2D" uid="uid://rvmb7pkcw277" path="res://player/kalaeno_idle.png" id="2_mqq08"]
+[ext_resource type="Script" uid="uid://bjup35tal11vy" path="res://player/ui.gd" id="3_g6k8r"]
 [ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5_ccxsm"]
 [ext_resource type="Texture2D" uid="uid://cd5urw5ew8b14" path="res://player/kalaeno_walk.png" id="6_0n7g8"]
 [ext_resource type="Texture2D" uid="uid://dfyqonu3b4jt7" path="res://player/kalaeno_jumping.png" id="6_vgao5"]
@@ -819,38 +820,16 @@ volume_db = -3.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 0
+script = ExtResource("3_g6k8r")
 
-[node name="Left" type="TouchScreenButton" parent="UI"]
-position = Vector2(157, 813)
-scale = Vector2(2, 2)
-passby_press = true
-action = "move_left"
-visibility_mode = 1
-
-[node name="Right" type="TouchScreenButton" parent="UI"]
-position = Vector2(425, 813)
-scale = Vector2(2, 2)
-passby_press = true
-action = "move_right"
-visibility_mode = 1
-
-[node name="Jump" type="TouchScreenButton" parent="UI"]
-position = Vector2(1871, 813)
-scale = Vector2(2, 2)
-action = "jump"
-visibility_mode = 1
-
-[node name="Fire" type="TouchScreenButton" parent="UI"]
-position = Vector2(1870, 564)
-scale = Vector2(2, 2)
-action = "shoot"
-visibility_mode = 1
+[node name="HealthAmount" type="Label" parent="UI"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Yo Momma got big titties"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.5, 20)
 scale = Vector2(1.63477, 1.65735)
 sprite_frames = SubResource("SpriteFrames_tpn74")
-animation = &"jumping"
+animation = &"idle"
 autoplay = "idle"
-frame = 32
-frame_progress = 1.0

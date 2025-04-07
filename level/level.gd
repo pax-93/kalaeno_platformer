@@ -6,6 +6,7 @@ const LIMIT_TOP = -250
 const LIMIT_RIGHT = 955
 const LIMIT_BOTTOM = 690
 
+#what is this shit
 
 func _ready():
 	for child in get_children():

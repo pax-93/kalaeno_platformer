@@ -2,6 +2,9 @@ class_name Game extends Node
 
 @onready var pause_menu = $InterfaceLayer/PauseMenu
 
+func _ready() -> void:
+	GameState.init_game()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"toggle_fullscreen"):
 		var mode := DisplayServer.window_get_mode()

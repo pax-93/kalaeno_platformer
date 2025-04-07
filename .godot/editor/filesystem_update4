@@ -6,3 +6,10 @@ res://level/props/wind_sway.tres
 res://gui/pause_menu.tscn
 res://enemy/enemy.tscn
 res://player/player.tscn
+res://player/player.gd
+res://level/level.gd
+res://global/signal_bus.gd
+res://global/player_state.gd
+res://player/ui.gd
+res://global/game_state.gd
+res://level/level.tscn
