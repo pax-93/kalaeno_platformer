@@ -1,3 +1,4 @@
 extends Node
 
-signal player_takes_damage(x: int)
+signal player_take_damage(x: int)
+signal player_use_stamina(x: int)

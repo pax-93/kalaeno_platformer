@@ -4,3 +4,4 @@ extends Node
 
 func init_game() -> void:
 	PlayerState.set_player_health(10)
+	PlayerState.set_player_stamina(100)
