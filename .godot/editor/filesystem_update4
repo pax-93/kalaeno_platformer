@@ -9,3 +9,4 @@ res://player/player.tscn
 res://level/level.tscn
 res://player/player.gd
 res://global/player_state.gd
+res://player/ui.gd

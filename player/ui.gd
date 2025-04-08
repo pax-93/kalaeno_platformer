@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-@onready var health_amount: Label = $HealthAmount
-@onready var stamina_amount: Label = $StaminaAmount
+@onready var health_amount: Label = $TopBar/HealthContainer/HealthAmount
+@onready var stamina_amount: Label = $TopBar/StaminaContainer/StaminaAmount
 
 func _physics_process(delta: float) -> void:
 	

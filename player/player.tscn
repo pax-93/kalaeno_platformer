@@ -1,11 +1,13 @@
-[gd_scene load_steps=119 format=3 uid="uid://cv7t3jhxwj281"]
+[gd_scene load_steps=121 format=3 uid="uid://cv7t3jhxwj281"]
 
 [ext_resource type="Script" uid="uid://bh2unequybtah" path="res://player/player.gd" id="1_84n86"]
 [ext_resource type="Texture2D" uid="uid://rvmb7pkcw277" path="res://player/kalaeno_idle.png" id="2_mqq08"]
 [ext_resource type="Script" uid="uid://bjup35tal11vy" path="res://player/ui.gd" id="3_g6k8r"]
 [ext_resource type="Theme" uid="uid://bwbwwhry1iw36" path="res://gui/in_game_stat_text_font_size_theme.tres" id="4_boad6"]
 [ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5_ccxsm"]
+[ext_resource type="Texture2D" uid="uid://b7jc4q4ilno3o" path="res://gui/hearts.svg" id="5_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://cd5urw5ew8b14" path="res://player/kalaeno_walk.png" id="6_0n7g8"]
+[ext_resource type="Texture2D" uid="uid://cfrfv12ves4if" path="res://gui/electric.svg" id="6_8t03j"]
 [ext_resource type="Texture2D" uid="uid://dfyqonu3b4jt7" path="res://player/kalaeno_jumping.png" id="6_vgao5"]
 
 [sub_resource type="RectangleShape2D" id="11"]
@@ -823,25 +825,51 @@ volume_db = -3.0
 layer = 0
 script = ExtResource("3_g6k8r")
 
-[node name="HealthAmount" type="Label" parent="UI"]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="TopBar" type="HBoxContainer" parent="UI"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 137.0
+grow_horizontal = 2
+
+[node name="HealthContainer" type="HBoxContainer" parent="UI/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="HealthAmount" type="Label" parent="UI/TopBar/HealthContainer"]
+layout_mode = 2
+size_flags_vertical = 1
 theme = ExtResource("4_boad6")
 theme_override_colors/font_color = Color(0.956722, 0.000835237, 0.000458012, 1)
-text = "Yo Momma got big titties"
+text = "999
+"
+vertical_alignment = 1
 
-[node name="StaminaAmount" type="Label" parent="UI"]
-custom_minimum_size = Vector2(200, 100)
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -295.0
-offset_bottom = 100.0
-grow_horizontal = 0
+[node name="HealthTextureRect" type="TextureRect" parent="UI/TopBar/HealthContainer"]
+layout_mode = 2
+texture = ExtResource("5_hg6s5")
+expand_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StaminaContainer" type="HBoxContainer" parent="UI/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="StaminaTextureRect" type="TextureRect" parent="UI/TopBar/StaminaContainer"]
+layout_mode = 2
+texture = ExtResource("6_8t03j")
+expand_mode = 3
+
+[node name="StaminaAmount" type="Label" parent="UI/TopBar/StaminaContainer"]
+layout_mode = 2
 theme = ExtResource("4_boad6")
-theme_override_colors/font_color = Color(0.850641, 0.697035, 0.282715, 1)
-text = "And dat ass so thick make a homie cry"
+theme_override_colors/font_color = Color(0.972549, 0.831373, 0.109804, 1)
+text = "999"
 horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.5, 20)

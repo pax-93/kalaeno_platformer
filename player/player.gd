@@ -38,6 +38,7 @@ func _physics_process(delta: float) -> void:
 		DIRECTION = Vector2.RIGHT
 		if just_switched_direction:
 			velocity.x *= -1
+			just_switched_direction = false
 	if direction < 0: 
 		animated_sprite_2d.flip_h = true
 		if DIRECTION != Vector2.LEFT:
@@ -45,6 +46,7 @@ func _physics_process(delta: float) -> void:
 		DIRECTION = Vector2.LEFT
 		if just_switched_direction:
 			velocity.x *= -1
+			just_switched_direction = false
 	
 	velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta)
 
