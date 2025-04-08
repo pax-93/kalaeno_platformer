@@ -849,3 +849,9 @@ scale = Vector2(1.63477, 1.65735)
 sprite_frames = SubResource("SpriteFrames_tpn74")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="StaminaReplenish" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="StaminaReplenish" to="." method="_on_stamina_replenish_timeout"]

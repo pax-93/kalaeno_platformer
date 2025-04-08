@@ -2,24 +2,26 @@ class_name Player extends CharacterBody2D
 
 signal coin_collected()
 
-const WALK_SPEED = 300.0
-const ACCELERATION_SPEED = WALK_SPEED * 6.0
-const JUMP_VELOCITY = -725.0
-const TERMINAL_VELOCITY = 700
+const WALK_SPEED: int = 300.0
+const ACCELERATION_SPEED: int = WALK_SPEED * 6.0
+const JUMP_VELOCITY: int = -725.0
+const TERMINAL_VELOCITY: int = 700
+const MAX_VELOCITY: int = 1000
+
 var GRAVITY: int = ProjectSettings.get("physics/2d/default_gravity")
+var DIRECTION = Vector2.RIGHT
+
+var strong_fly_movement_timer_cooldown
 
 @onready var platform_detector := $PlatformDetector as RayCast2D
 @onready var jump_sound := $Jump as AudioStreamPlayer2D
 @onready var camera := $Camera as Camera2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-
-var _double_jump_charged := false
+@onready var stamina_replenish: Timer = $StaminaReplenish
 
 func _physics_process(delta: float) -> void:
-	if is_on_floor():
-		_double_jump_charged = true
 	if Input.is_action_just_pressed("jump"):
-		try_jump()
+		try_fly()
 	elif Input.is_action_just_released("jump") and velocity.y < 0.0:
 		# The player let go of jump early, reduce vertical momentum.
 		velocity.y *= 0.6
@@ -28,14 +30,26 @@ func _physics_process(delta: float) -> void:
 
 		
 	var direction := Input.get_axis("move_left", "move_right") * WALK_SPEED
+	var just_switched_direction: bool = false
 	if direction > 0:
 		animated_sprite_2d.flip_h = false
+		if DIRECTION != Vector2.RIGHT:
+			just_switched_direction = true
+		DIRECTION = Vector2.RIGHT
+		if just_switched_direction:
+			velocity.x *= -1
 	if direction < 0: 
 		animated_sprite_2d.flip_h = true
+		if DIRECTION != Vector2.LEFT:
+			just_switched_direction = true
+		DIRECTION = Vector2.LEFT
+		if just_switched_direction:
+			velocity.x *= -1
 	
 	velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta)
 
 	floor_stop_on_slope = not platform_detector.is_colliding()
+
 	move_and_slide()
 	
 	var animation := get_new_animation()
@@ -58,14 +72,38 @@ func get_new_animation() -> String:
 	return animation_new
 
 
-func try_jump() -> void:
-	if is_on_floor():
-		jump_sound.pitch_scale = 1.0
-	elif _double_jump_charged:
-		_double_jump_charged = false
-		velocity.x *= 2.5
-		jump_sound.pitch_scale = 1.5
-	else:
+func try_fly() -> void:
+	if PlayerState.get_player_stamina() < 5:
 		return
-	velocity.y = JUMP_VELOCITY
-	#jump_sound.play()
+	else:
+		velocity.y = JUMP_VELOCITY
+		
+		if is_on_floor() and !strong_fly_movement_timer_cooldown:
+			velocity.x *= 2.4
+			velocity.y *= 2.0
+		else:
+			velocity.x *= 3.6
+			velocity.y *= 1.4
+		
+		# caps the max velocity in x
+		if velocity.x > 0 and velocity.x > MAX_VELOCITY:
+			velocity.x = MAX_VELOCITY
+		elif velocity.x < 0 and velocity.x < -MAX_VELOCITY:
+			velocity.x = -MAX_VELOCITY
+
+		# caps the max velocity in y
+		if velocity.y > 0 and velocity.y > MAX_VELOCITY:
+			velocity.y = MAX_VELOCITY
+		elif velocity.y < 0 and velocity.y < -MAX_VELOCITY:
+			velocity.y = -MAX_VELOCITY
+			
+		if !strong_fly_movement_timer_cooldown:
+			strong_fly_movement_timer_cooldown = get_tree().create_timer(1)
+			strong_fly_movement_timer_cooldown.timeout.connect(_free_strong_fly_cooldown_timer)
+		SignalBus.player_use_stamina.emit(5)
+
+func _free_strong_fly_cooldown_timer() -> void:
+	strong_fly_movement_timer_cooldown = null
+
+func _on_stamina_replenish_timeout() -> void:
+	SignalBus.player_gain_stamina.emit(15)
