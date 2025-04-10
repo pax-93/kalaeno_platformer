@@ -812,6 +812,8 @@ collision_mask = 8
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2(0, -28)
 offset = Vector2(0, 50)
+zoom = Vector2(0.8, 0.8)
+position_smoothing_speed = 8.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-7.5, -47.75)
@@ -828,7 +830,7 @@ script = ExtResource("3_g6k8r")
 [node name="TopBar" type="HBoxContainer" parent="UI"]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 137.0
+offset_bottom = 71.0
 grow_horizontal = 2
 
 [node name="HealthContainer" type="HBoxContainer" parent="UI/TopBar"]
