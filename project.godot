@@ -32,10 +32,7 @@ GameState="*res://global/game_state.gd"
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/size/window_width_override=1600
-window/size/window_height_override=960
-window/stretch/mode="canvas_items"
-window/stretch/aspect="keep_height"
+window/stretch/aspect="ignore"
 window/stretch/scale_mode="integer"
 
 [importer_defaults]
