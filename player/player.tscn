@@ -833,11 +833,7 @@ anchor_right = 1.0
 offset_bottom = 71.0
 grow_horizontal = 2
 
-[node name="HealthContainer" type="HBoxContainer" parent="UI/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 0
-
-[node name="HealthAmount" type="Label" parent="UI/TopBar/HealthContainer"]
+[node name="HealthAmount" type="Label" parent="UI/TopBar"]
 layout_mode = 2
 size_flags_vertical = 1
 theme = ExtResource("4_boad6")
@@ -846,32 +842,24 @@ text = "999
 "
 vertical_alignment = 1
 
-[node name="HealthTextureRect" type="TextureRect" parent="UI/TopBar/HealthContainer"]
+[node name="HealthTextureRect" type="TextureRect" parent="UI/TopBar"]
 layout_mode = 2
 texture = ExtResource("5_hg6s5")
 expand_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/TopBar"]
+[node name="StaminaAmount" type="Label" parent="UI/TopBar"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="StaminaContainer" type="HBoxContainer" parent="UI/TopBar"]
-layout_mode = 2
-size_flags_horizontal = 8
-alignment = 2
-
-[node name="StaminaTextureRect" type="TextureRect" parent="UI/TopBar/StaminaContainer"]
-layout_mode = 2
-texture = ExtResource("6_8t03j")
-expand_mode = 3
-
-[node name="StaminaAmount" type="Label" parent="UI/TopBar/StaminaContainer"]
-layout_mode = 2
 theme = ExtResource("4_boad6")
 theme_override_colors/font_color = Color(0.972549, 0.831373, 0.109804, 1)
 text = "999"
 horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="StaminaTextureRect" type="TextureRect" parent="UI/TopBar"]
+layout_mode = 2
+texture = ExtResource("6_8t03j")
+expand_mode = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(2.5, 20)

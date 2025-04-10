@@ -7,3 +7,4 @@ res://gui/in_game_stat_text_font_size_theme.tres
 res://game.tscn
 res://player/player.tscn
 res://level/level.tscn
+res://player/ui.gd
