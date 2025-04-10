@@ -8,3 +8,6 @@ res://game.tscn
 res://player/player.tscn
 res://level/level.tscn
 res://player/ui.gd
+res://level/background/parallax_background.tscn
+res://music.tscn
+res://level/platforms/platform.tscn
