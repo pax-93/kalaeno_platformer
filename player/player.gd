@@ -3,6 +3,7 @@ class_name Player extends CharacterBody2D
 signal coin_collected()
 
 const WALK_SPEED: int = 300.0
+const FLYING_SPEED: int = 500.0
 const ACCELERATION_SPEED: int = WALK_SPEED * 6.0
 const JUMP_VELOCITY: int = -725.0
 const TERMINAL_VELOCITY: int = 700
@@ -45,7 +46,11 @@ func _physics_process(delta: float) -> void:
 		hovering = false
 		velocity.y = minf(TERMINAL_VELOCITY, velocity.y + GRAVITY * delta)
 	
-	var direction := Input.get_axis("move_left", "move_right") * WALK_SPEED
+	var direction
+	if hovering:
+		direction = Input.get_axis("move_left", "move_right") * FLYING_SPEED
+	else:
+		direction = Input.get_axis("move_left", "move_right") * WALK_SPEED
 	var just_switched_direction: bool = false
 	if direction > 0:
 		animated_sprite_2d.flip_h = false
@@ -53,7 +58,6 @@ func _physics_process(delta: float) -> void:
 			just_switched_direction = true
 		DIRECTION = Vector2.RIGHT
 		if just_switched_direction:
-			velocity.x *= -1
 			just_switched_direction = false
 	if direction < 0: 
 		animated_sprite_2d.flip_h = true
@@ -61,7 +65,6 @@ func _physics_process(delta: float) -> void:
 			just_switched_direction = true
 		DIRECTION = Vector2.LEFT
 		if just_switched_direction:
-			velocity.x *= -1
 			just_switched_direction = false
 	
 	velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta)
