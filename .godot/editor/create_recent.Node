@@ -1,8 +1,0 @@
-HBoxContainer
-VBoxContainer
-TextureRect
-Timer
-Label
-TextEdit
-RayCast2D
-AnimatedSprite2D
