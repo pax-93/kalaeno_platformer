@@ -11,13 +11,17 @@ const MAX_VELOCITY: int = 1000
 var GRAVITY: int = ProjectSettings.get("physics/2d/default_gravity")
 var DIRECTION = Vector2.RIGHT
 
-var strong_fly_movement_timer_cooldown
-
 @onready var platform_detector := $PlatformDetector as RayCast2D
 @onready var jump_sound := $Jump as AudioStreamPlayer2D
 @onready var camera := $Camera as Camera2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var stamina_replenish: Timer = $StaminaReplenish
+
+var strong_fly_movement_timer_cooldown
+
+var engage_hovering_state_timer
+var hovering: bool = false
+
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("jump"):
@@ -26,9 +30,21 @@ func _physics_process(delta: float) -> void:
 		# The player let go of jump early, reduce vertical momentum.
 		velocity.y *= 0.6
 	# Fall.
-	velocity.y = minf(TERMINAL_VELOCITY, velocity.y + GRAVITY * delta)
-
-		
+	if not hovering:
+		velocity.y = minf(TERMINAL_VELOCITY, velocity.y + GRAVITY * delta)
+	
+	if not is_on_floor() and hovering:
+		velocity.y *= 0.975
+		if velocity.y >= 0:
+			velocity.y = 0
+	
+	if is_on_floor():
+		hovering = false
+	
+	if Input.is_action_just_pressed("move_down"):
+		hovering = false
+		velocity.y = minf(TERMINAL_VELOCITY, velocity.y + GRAVITY * delta)
+	
 	var direction := Input.get_axis("move_left", "move_right") * WALK_SPEED
 	var just_switched_direction: bool = false
 	if direction > 0:
@@ -80,6 +96,12 @@ func try_fly() -> void:
 	else:
 		velocity.y = JUMP_VELOCITY
 		
+		if !engage_hovering_state_timer:
+			engage_hovering_state_timer = get_tree().create_timer(0.4)
+			engage_hovering_state_timer.timeout.connect(_attempting_to_engage_hovering_state)
+		else:
+			hovering = true
+		
 		if is_on_floor() and !strong_fly_movement_timer_cooldown:
 			velocity.x *= 2.4
 			velocity.y *= 2.0
@@ -103,6 +125,9 @@ func try_fly() -> void:
 			strong_fly_movement_timer_cooldown = get_tree().create_timer(1)
 			strong_fly_movement_timer_cooldown.timeout.connect(_free_strong_fly_cooldown_timer)
 		SignalBus.player_use_stamina.emit(5)
+
+func _attempting_to_engage_hovering_state() -> void:
+	engage_hovering_state_timer = null
 
 func _free_strong_fly_cooldown_timer() -> void:
 	strong_fly_movement_timer_cooldown = null
