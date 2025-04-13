@@ -16,6 +16,27 @@ z_index = 5
 position = Vector2(90, 546)
 scale = Vector2(0.64, 0.64)
 
+[node name="LabelInsturctionMoving" type="Label" parent="Level"]
+z_index = 5
+offset_left = -548.0
+offset_top = 438.0
+offset_right = -140.0
+offset_bottom = 513.0
+scale = Vector2(1, 2.24)
+text = "Press WASD to move.
+Double jump in quick succession to engage hovering.
+Press down while hovering to fall to the ground."
+
+[node name="LabelInstructionStamina" type="Label" parent="Level"]
+z_index = 5
+offset_left = -512.0
+offset_top = 41.0
+offset_right = -210.0
+offset_bottom = 116.0
+text = "Jumping consumes 5 stamina.
+Every 3 seconds you regain 15 stamina.
+Max 100 stamina for now."
+
 [node name="InterfaceLayer" type="CanvasLayer" parent="."]
 layer = 100
 
