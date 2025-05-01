@@ -3,6 +3,7 @@ extends Node
 var max_stamina_amount: int = 100
 var health_amount: int
 var stamina_amount: int
+var attacking: bool
 
 func _ready() -> void:
 	#Player HEALTH signals
@@ -24,6 +25,12 @@ func set_player_health(amount) -> void:
 
 func set_player_stamina(amount) -> void:
 	stamina_amount = amount
+
+func set_attacking_state(new_attacking_state: bool) -> void:
+	attacking = new_attacking_state
+
+func get_attacking_state() -> bool:
+	return attacking
 
 func _handle_player_take_damage(amount: int) -> void:
 	health_amount -= amount

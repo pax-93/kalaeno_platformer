@@ -6,6 +6,8 @@ const WALK_SPEED: int = 300.0
 const FLYING_SPEED: int = 500.0
 const ACCELERATION_SPEED: int = WALK_SPEED * 6.0
 const JUMP_VELOCITY: int = -725.0
+const DOWNWARD_X_ATTACK_VELOCITY: int = 800.0
+const DOWNWARD_Y_ATTACK_VELOCITY: int = 1300.0
 const TERMINAL_VELOCITY: int = 700
 const MAX_VELOCITY: int = 1000
 
@@ -22,7 +24,6 @@ var strong_fly_movement_timer_cooldown
 
 var engage_hovering_state_timer
 var hovering: bool = false
-
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("jump"):
@@ -41,6 +42,7 @@ func _physics_process(delta: float) -> void:
 	
 	if is_on_floor():
 		hovering = false
+		PlayerState.set_attacking_state(false)
 	
 	if Input.is_action_just_pressed("move_down"):
 		hovering = false
@@ -73,9 +75,12 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-	var animation := get_new_animation()
-	if animation != animated_sprite_2d.animation:
+	var animation = get_new_animation()
+	if animation != animated_sprite_2d.animation and not PlayerState.get_attacking_state():
 		animated_sprite_2d.play(animation)
+		
+	if Input.is_action_just_pressed("attack") and not PlayerState.get_attacking_state():
+		try_attack()
 
 func get_new_animation() -> String:
 	var animation_new: String
@@ -85,6 +90,8 @@ func get_new_animation() -> String:
 		else:
 			animation_new = "idle"
 	else:
+		#if PlayerState.get_attacking_state():
+			#animation_new = "down_air_attack"
 		#if velocity.y > 0.0:
 			#animation_new = "falling"
 		#else:
@@ -94,6 +101,7 @@ func get_new_animation() -> String:
 
 
 func try_fly() -> void:
+	PlayerState.set_attacking_state(false)
 	if PlayerState.get_player_stamina() < 5:
 		return
 	else:
@@ -112,22 +120,35 @@ func try_fly() -> void:
 			velocity.x *= 3.6
 			velocity.y *= 1.4
 		
-		# caps the max velocity in x
-		if velocity.x > 0 and velocity.x > MAX_VELOCITY:
-			velocity.x = MAX_VELOCITY
-		elif velocity.x < 0 and velocity.x < -MAX_VELOCITY:
-			velocity.x = -MAX_VELOCITY
-
-		# caps the max velocity in y
-		if velocity.y > 0 and velocity.y > MAX_VELOCITY:
-			velocity.y = MAX_VELOCITY
-		elif velocity.y < 0 and velocity.y < -MAX_VELOCITY:
-			velocity.y = -MAX_VELOCITY
+		_limit_player_velocity()
 			
 		if !strong_fly_movement_timer_cooldown:
 			strong_fly_movement_timer_cooldown = get_tree().create_timer(1)
 			strong_fly_movement_timer_cooldown.timeout.connect(_free_strong_fly_cooldown_timer)
 		SignalBus.player_use_stamina.emit(5)
+
+func try_attack() -> void:
+	if PlayerState.get_player_stamina() > 10:
+		PlayerState.set_attacking_state(true)
+		hovering = false
+		
+		
+		if !is_on_floor():
+			animated_sprite_2d.stop()
+			animated_sprite_2d.play("down_air_attack")
+			if DIRECTION == Vector2.RIGHT:
+				velocity.x = DOWNWARD_X_ATTACK_VELOCITY
+			else:
+				velocity.x = -DOWNWARD_X_ATTACK_VELOCITY
+			velocity.y = DOWNWARD_Y_ATTACK_VELOCITY
+			PlayerState.set_attacking_state(false)
+			return
+			
+		animated_sprite_2d.stop()
+		animated_sprite_2d.play("forward_ground_attack")
+
+		PlayerState.set_attacking_state(false)
+	#_limit_player_velocity()
 
 func _attempting_to_engage_hovering_state() -> void:
 	engage_hovering_state_timer = null
@@ -137,3 +158,19 @@ func _free_strong_fly_cooldown_timer() -> void:
 
 func _on_stamina_replenish_timeout() -> void:
 	SignalBus.player_gain_stamina.emit(15)
+
+func _limit_player_velocity() -> void:
+	# caps the max velocity in x
+	if velocity.x > 0 and velocity.x > MAX_VELOCITY:
+		velocity.x = MAX_VELOCITY
+	elif velocity.x < 0 and velocity.x < -MAX_VELOCITY:
+		velocity.x = -MAX_VELOCITY
+
+	# caps the max velocity in y
+	if velocity.y > 0 and velocity.y > MAX_VELOCITY:
+		velocity.y = MAX_VELOCITY
+	elif velocity.y < 0 and velocity.y < -MAX_VELOCITY:
+		velocity.y = -MAX_VELOCITY
+
+func _on_collision_shape_2d_child_entered_tree(node: Node) -> void:
+	animated_sprite_2d.play("run")
